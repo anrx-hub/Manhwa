@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة نشر المانجا والويبتون العصرية</title>
+    <title>منصة EAGLE MANGA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: #0b0f19; /* أسود داكن مائل للأزرق */
-        }
-        .text-accent { color: #06b6d4; } /* أخضر مائل للأزرق Cyan */
+        body { background-color: #0b0f19; }
+        .text-accent { color: #06b6d4; }
         .bg-accent { background-color: #06b6d4; }
         .border-accent { border-color: #06b6d4; }
         .hover-accent:hover { color: #22d3ee; }
-        /* إخفاء شريط التمرير الافتراضي لشكل أكثر أناقة */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0b0f19; }
         ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
@@ -31,9 +28,8 @@
                 <span id="logo-text" class="hidden text-2xl font-black tracking-wider text-accent">EAGLE<span class="text-white">MANGA</span></span>
             </div>
 
-            <div id="main-nav-links" class="hidden md:flex items-center space-x-reverse space-x-6 font-medium">
-                <button onclick="showSection('home-section')" class="nav-btn text-accent border-b-2 border-accent pb-1">الرئيسية</button>
-                <button onclick="showSection('home-section')" class="nav-btn hover-accent transition">قائمة المانجا</button>
+            <div class="hidden md:flex items-center space-x-reverse space-x-6 font-medium">
+                <button onclick="showSection('home-section')" class="text-accent border-b-2 border-accent pb-1">الرئيسية</button>
                 <button onclick="toggleAdminPanel()" class="opacity-10 hover:opacity-100 text-xs transition px-2 py-1 border border-gray-700 rounded mr-4">لوحة التحكم</button>
             </div>
 
@@ -48,36 +44,41 @@
         </div>
     </nav>
 
-    <div id="admin-panel" class="hidden bg-[#1f2937] border-b border-cyan-900 text-white p-6 shadow-inner transition-all">
+    <div id="admin-panel" class="hidden bg-[#1f2937] border-b border-cyan-900 text-white p-6 shadow-inner">
         <div class="max-w-4xl mx-auto">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-accent"><i class="fa-solid fa-user-shield ml-2"></i>لوحة تحكم الناشر لتنزيل المانجا والويبتون</h3>
+                <h3 class="text-xl font-bold text-accent"><i class="fa-solidxl fa-user-shield ml-2"></i>لوحة التحكم (رفع مباشر من المعرض)</h3>
                 <button onclick="toggleAdminPanel()" class="text-red-400 hover:text-red-300"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             
             <form id="add-manga-form" class="space-y-4" onsubmit="addNewManga(event)">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input type="text" id="manga-title" placeholder="اسم المانجا / الويبتون" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-cyan-500">
-                    <input type="text" id="manga-chapter" placeholder="رقم الفصل (مثال: الفصل 01)" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-cyan-500">
-                    <input type="text" id="manga-genres" placeholder="التصنيفات (مثال: أكشن، مغامرة، سحر)" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-cyan-500">
+                    <input type="text" id="manga-title" placeholder="اسم المانجا / الويبتون" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-cyan-500 outline-none">
+                    <input type="text" id="manga-chapter" placeholder="رقم الفصل (مثال: الفصل 01)" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-cyan-500 outline-none">
+                    <input type="text" id="manga-genres" placeholder="التصنيفات (مثال: أكشن، دراما)" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-cyan-500 outline-none">
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="url" id="manga-cover" placeholder="رابط صورة الغلاف الرئيسي" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-cyan-500">
-                    <span class="text-xs text-gray-400 flex items-center">ملاحظة: يمكنك رفع الصور في أي موقع رفع صور ووضع روابطها هنا.</span>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-900 p-4 rounded border border-gray-800">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">اختر صورة الغلاف الرئيسية:</label>
+                        <input type="file" id="manga-cover-file" accept="image/*" required class="text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-cyan-950 file:text-accent hover:file:bg-cyan-900 cursor-pointer">
+                    </div>
+                    <div class="text-xs text-gray-500 flex items-center">
+                        <i class="fa-solid fa-info-circle ml-1"></i> سيتم تحميل الصور مباشرة من جهازك وعرضها للزوار.
+                    </div>
                 </div>
 
                 <div>
-                    <textarea id="manga-summary" rows="2" placeholder="قصة المانجا أو نبذة مختصرة عنها..." required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-cyan-500"></textarea>
+                    <textarea id="manga-summary" rows="2" placeholder="قصة المانجا..." required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white focus:border-cyan-500 outline-none"></textarea>
                 </div>
 
-                <div>
-                    <label class="block text-sm text-gray-400 mb-1">روابط صور الفصل (العرض العمودي المتتالي للويبتون):</label>
-                    <textarea id="manga-pages" rows="4" placeholder="ضع روابط الصور هنا.. ضع رابط كل صورة في سطر جديد أو افصل بينها بفاصلة (,)" required class="w-full bg-gray-900 border border-gray-700 rounded p-2 text-white font-mono text-sm focus:outline-none focus:border-cyan-500"></textarea>
+                <div class="bg-gray-900 p-4 rounded border border-gray-800">
+                    <label class="block text-sm text-gray-400 mb-2">اختر صفحات الفصل (يمكنك تحديد كل صور الفصل معاً من المعرض):</label>
+                    <input type="file" id="manga-pages-files" accept="image/*" multiple required class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-cyan-950 file:text-accent hover:file:bg-cyan-900 cursor-pointer">
                 </div>
 
                 <div class="text-left">
-                    <button type="submit" class="bg-accent text-gray-900 font-bold px-8 py-2 rounded hover:bg-cyan-400 transition shadow-lg">نشر الفصل والقصة فوراً</button>
+                    <button type="submit" class="bg-accent text-gray-900 font-bold px-8 py-2 rounded hover:bg-cyan-400 transition shadow-lg">نشر الفصل فوراً</button>
                 </div>
             </form>
         </div>
@@ -85,68 +86,45 @@
 
     <main id="home-section" class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
         <div class="flex items-center justify-between mb-8 border-r-4 border-accent pr-3">
-            <h2 class="text-2xl font-extrabold text-white">الفصول والقصص الحالية</h2>
-            <span class="text-xs bg-gray-800 text-accent px-3 py-1 rounded-full border border-cyan-900">تحديث مستمر</span>
+            <h2 class="text-2xl font-extrabold text-white">آخر الفصول المرفوعة من جهازك</h2>
         </div>
-
         <div id="manga-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
             </div>
     </main>
 
     <main id="reader-section" class="hidden flex-grow w-full mx-auto py-6 bg-[#070a12]">
         <div class="max-w-3xl mx-auto px-4">
-            
-            <div class="flex flex-col md:flex-row justify-between items-center bg-[#111827] p-4 rounded-xl border border-gray-800 mb-6 gap-4">
+            <div class="flex justify-between items-center bg-[#111827] p-4 rounded-xl border border-gray-800 mb-6">
                 <div>
-                    <h2 id="reader-title" class="text-xl font-bold text-white">اسم المانجا</h2>
-                    <p id="reader-chapter" class="text-sm text-accent">الفصل 01</p>
+                    <h2 id="reader-title" class="text-xl font-bold text-white"></h2>
+                    <p id="reader-chapter" class="text-sm text-accent"></p>
                 </div>
-                <div class="flex items-center space-x-reverse space-x-2">
-                    <button onclick="showSection('home-section')" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded transition text-sm">
-                        <i class="fa-solid fa-house ml-2"></i>الرئيسية
-                    </button>
-                </div>
+                <button onclick="showSection('home-section')" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded text-sm">
+                    <i class="fa-solid fa-house ml-2"></i>الرئيسية
+                </button>
             </div>
 
             <div class="bg-[#111827] p-4 rounded-xl border border-gray-800 mb-8">
-                <div class="flex flex-wrap gap-2 mb-3" id="reader-genres">
-                    </div>
-                <p class="text-sm text-gray-400 leading-relaxed font-light" id="reader-summary">قصة المانجا تفاصيل...</p>
+                <div class="flex flex-wrap gap-2 mb-3" id="reader-genres"></div>
+                <p class="text-sm text-gray-400 leading-relaxed" id="reader-summary"></p>
             </div>
 
-            <div id="webtoon-images-container" class="flex flex-col items-center bg-black rounded-lg overflow-hidden border border-gray-900 shadow-2xl">
-                </div>
+            <div id="webtoon-images-container" class="flex flex-col items-center bg-black rounded-lg overflow-hidden border border-gray-900 shadow-2xl"></div>
 
             <div class="text-center mt-8">
-                <button onclick="showSection('home-section')" class="bg-accent text-gray-900 font-bold px-8 py-3 rounded-full hover:bg-cyan-400 transition shadow-lg">
-                    العودة للرئيسية وإنهاء القراءة
-                </button>
+                <button onclick="showSection('home-section')" class="bg-accent text-gray-900 font-bold px-8 py-3 rounded-full hover:bg-cyan-400 transition shadow-lg">العودة للرئيسية</button>
             </div>
         </div>
     </main>
 
     <footer class="bg-[#090d16] border-t border-gray-900 py-6 text-center text-sm text-gray-500 mt-auto">
-        <p>جميع الحقوق محفوظة © 2026 | منصة EAGLE MANGA للويبتون</p>
+        <p>جميع الحقوق محفوظة © 2026 | منصة EAGLE MANGA</p>
     </footer>
 
     <script>
-        // مصفوفة افتراضية لبيانات المانجا لحين قيامك بنشر فصولك الخاصة
-        let mangaList = JSON.parse(localStorage.getItem('manga_data')) || [
-            {
-                id: 1,
-                title: "مغامرة فتى النسيم",
-                chapter: "الفصل 01",
-                genres: "أكشن, مغامرة, شونين",
-                cover: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=400",
-                summary: "تدور القصة حول فتى يكتشف قدرة غامضة للتحكم بالرياح ويسعى لحماية قريته من قوى الظلام العائدة من الماضي السحيق.",
-                pages: [
-                    "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600",
-                    "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?q=80&w=600"
-                ]
-            }
-        ];
+        // جلب البيانات المخزنة مسبقاً
+        let mangaList = JSON.parse(localStorage.getItem('manga_gallery_data')) || [];
 
-        // دالة تبديل الأقسام (رئيسية / قارئ المانجا)
         function showSection(sectionId) {
             document.getElementById('home-section').classList.add('hidden');
             document.getElementById('reader-section').classList.add('hidden');
@@ -154,18 +132,18 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
-        }
+        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('hidden'); }
+        function toggleAdminPanel() { document.getElementById('admin-panel').classList.toggle('hidden'); }
 
-        function toggleAdminPanel() {
-            document.getElementById('admin-panel').classList.toggle('hidden');
-        }
-
-        // دالة عرض وتحديث قائمة المانجا بالرئيسية
+        // دالة عرض الكروت بالصفحة الرئيسية
         function renderMangaCards() {
             const container = document.getElementById('manga-container');
             container.innerHTML = '';
+
+            if (mangaList.length === 0) {
+                container.innerHTML = `<p class="text-gray-500 col-span-full text-center py-10">لا توجد فصول مرفوعة حالياً. افتح لوحة التحكم السريعة لرفع أول مانجا من معرضك!</p>`;
+                return;
+            }
 
             mangaList.forEach((manga, index) => {
                 const card = document.createElement('div');
@@ -175,13 +153,13 @@
                 card.innerHTML = `
                     <div class="relative overflow-hidden aspect-[3/4]">
                         <img src="${manga.cover}" alt="${manga.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                        <span class="absolute top-2 right-2 bg-accent text-gray-900 text-xs font-bold px-2 py-1 rounded">WEBTOON</span>
+                        <span class="absolute top-2 right-2 bg-accent text-gray-900 text-xs font-bold px-2 py-1 rounded">معرض الجهاز</span>
                     </div>
                     <div class="p-3">
                         <h3 class="font-bold text-white truncate group-hover:text-accent transition">${manga.title}</h3>
                         <div class="flex justify-between items-center mt-2">
                             <span class="text-sm text-gray-400">${manga.chapter}</span>
-                            <span class="text-xs text-gray-500"><i class="fa-solid fa-eye ml-1"></i>قراءة</span>
+                            <span class="text-xs text-cyan-400"><i class="fa-solid fa-book-open ml-1"></i>اقرأ الآن</span>
                         </div>
                     </div>
                 `;
@@ -189,78 +167,96 @@
             });
         }
 
-        // دالة فتح وضع القراءة الطولي للويبتون
+        // دالة قراءة المانجا والويبتون المرفوع
         function openMangaReader(index) {
             const manga = mangaList[index];
-            
             document.getElementById('reader-title').innerText = manga.title;
             document.getElementById('reader-chapter').innerText = manga.chapter;
             document.getElementById('reader-summary').innerText = manga.summary;
 
-            // توليد التصنيفات كأزرار ملونة
             const genresContainer = document.getElementById('reader-genres');
             genresContainer.innerHTML = '';
             manga.genres.split(',').forEach(genre => {
                 genresContainer.innerHTML += `<span class="bg-cyan-950 text-accent border border-cyan-800 text-xs px-2 py-1 rounded">${genre.trim()}</span>`;
             });
 
-            // توليد الصور عمودياً تحت بعض بدون فراغات (نظام ويبتون)
             const imagesContainer = document.getElementById('webtoon-images-container');
             imagesContainer.innerHTML = '';
             
-            manga.pages.forEach(pageUrl => {
-                if(pageUrl.trim() !== "") {
-                    const img = document.createElement('img');
-                    img.src = pageUrl.trim();
-                    img.className = "w-full h-auto block object-contain border-b border-gray-900";
-                    img.alt = "صفحة الويبتون";
-                    imagesContainer.appendChild(img);
-                }
+            manga.pages.forEach(pageData => {
+                const img = document.createElement('img');
+                img.src = pageData;
+                img.className = "w-full h-auto block object-contain border-b border-black";
+                imagesContainer.appendChild(img);
             });
 
             showSection('reader-section');
         }
 
-        // دالة استقبال البيانات من لوحة التحكم وإضافتها
-        function addNewManga(event) {
+        // دالة ذكية لتحويل الصور الملتقطة من الـ Gallery إلى بيانات نصية (Base64) قابلة للعرض والحفظ
+        function fileToDataURL(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = event => resolve(event.target.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // معالجة نشر المانجا الجديدة
+        async function addNewManga(event) {
             event.preventDefault();
 
             const title = document.getElementById('manga-title').value;
             const chapter = document.getElementById('manga-chapter').value;
             const genres = document.getElementById('manga-genres').value;
-            const cover = document.getElementById('manga-cover').value;
             const summary = document.getElementById('manga-summary').value;
-            const pagesRaw = document.getElementById('manga-pages').value;
-
-            // تحويل النص المدخل لصور الفصل إلى مصفوفة روابط حقيقية (عبر الفصل بأسطر أو فواصل)
-            const pagesArray = pagesRaw.split(/[\n,]+/).map(url => url.trim()).filter(url => url !== "");
-
-            const newManga = {
-                id: Date.now(),
-                title: title,
-                chapter: chapter,
-                genres: genres,
-                cover: cover,
-                summary: summary,
-                pages: pagesArray
-            };
-
-            // إدخال في بداية المصفوفة لحفظ الترتيب الأحدث أولاً
-            mangaList.unshift(newManga);
-
-            // الحفظ الدائم في المتصفح
-            localStorage.setItem('manga_data', JSON.stringify(mangaList));
-
-            // إعادة عرض الصفحة وتصفير المدخلات وإغلاق اللوحة
-            renderMangaCards();
-            document.getElementById('add-manga-form').reset();
-            toggleAdminPanel();
             
-            alert('تم نشر الفصل وقصة المانجا بنجاح، وتهيئتها بنظام العرض العمودي للويبتون!');
+            const coverFile = document.getElementById('manga-cover-file').files[0];
+            const pagesFiles = document.getElementById('manga-pages-files').files;
+
+            if(!coverFile || pagesFiles.length === 0) {
+                alert("الرجاء اختيار صورة الغلاف وصفحات الفصل من المعرض أولاً!");
+                return;
+            }
+
+            try {
+                // 1. تحويل صورة الغلاف
+                const coverDataUrl = await fileToDataURL(coverFile);
+
+                // 2. تحويل جميع صفحات الفصل دفعة واحدة
+                const pagesPromises = Array.from(pagesFiles).map(file => fileToDataURL(file));
+                const pagesDataUrls = await Promise.all(pagesPromises);
+
+                // 3. بناء كائن المانجا الجديد
+                const newManga = {
+                    id: Date.now(),
+                    title: title,
+                    chapter: chapter,
+                    genres: genres,
+                    summary: summary,
+                    cover: coverDataUrl,
+                    pages: pagesDataUrls
+                };
+
+                mangaList.unshift(newManga);
+
+                // حفظ البيانات محلياً في المتصفح
+                localStorage.setItem('manga_gallery_data', JSON.stringify(mangaList));
+
+                renderMangaCards();
+                document.getElementById('add-manga-form').reset();
+                toggleAdminPanel();
+                alert('تم رفع الفصل بنجاح من الـ Gallery وتحويله إلى نظام الويبتون!');
+
+            } catch (error) {
+                alert('حدث خطأ أثناء معالجة الصور، تأكد من أن أحجام الصور ليست ضخمة جداً.');
+                console.error(error);
+            }
         }
 
-        // تشغيل البناء الأولي للموقع عند الفتح
         window.onload = renderMangaCards;
     </script>
 </body>
 </html>
+
