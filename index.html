@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع المانجا الخاص بي</title>
+    <!-- استدعاء مكتبة Tailwind CSS للألوان والواجهة العصرية -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- استدعاء أيقونات FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* تخصيص الألوان الأساسية المتناسقة */
+        body {
+            background-color: #0b0f19; /* أسود داكن مائل للأزرق */
+        }
+        .text-accent {
+            color: #06b6d4; /* لون أخضر مائل للأزرق - Cyan/Teal */
+        }
+        .bg-accent {
+            background-color: #06b6d4;
+        }
+        .hover-accent:hover {
+            color: #22d3ee;
+        }
+    </style>
+</head>
+<body class="text-gray-200 font-sans min-h-screen flex flex-col">
+
+    <!-- 1. شريط التنقل (Navbar) والـ Menu -->
+    <nav class="bg-[#111827] border-b border-gray-800 sticky top-0 z-50 px-4 py-3 shadow-lg">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            
+            <!-- مكان شعار الموقع (اللوغو الخاص بك) -->
+            <div class="flex items-center space-x-reverse space-x-3">
+                <img src="your-logo-url.png" alt="لوغو الموقع" class="h-10 w-auto object-contain onerror-fallback" onerror="this.style.display='none'; document.getElementById('logo-text').style.display='block';">
+                <!-- نص بديل في حال لم يعمل رابط الصورة فوراً -->
+                <span id="logo-text" class="hidden text-2xl font-black tracking-wider text-accent">MANGA<span class="text-white">ZONE</span></span>
+            </div>
+
+            <!-- القائمة العادية للشاشات الكبيرة -->
+            <div class="hidden md:flex items-center space-x-reverse space-x-6 font-medium">
+                <a href="#" class="text-accent border-b-2 border-accent pb-1">الرئيسية</a>
+                <a href="#" class="hover-accent transition">قائمة المانجا</a>
+                <a href="#" class="hover-accent transition">أحدث الفصول</a>
+                <a href="#" class="hover-accent transition">المفضلة</a>
+                <!-- زر سري لفتح لوحة التحكم المخفية -->
+                <button onclick="toggleAdminPanel()" class="opacity-20 hover:opacity-100 text-xs transition px-2 py-1 border border-gray-700 rounded">لوحة التحكم</button>
+            </div>
+
+            <!-- زر القائمة للجوال -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-gray-400 hover:text-white focus:outline-none">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- قائمة الجوال المنسدلة (تظهر عند الضغط) -->
+        <div id="mobile-menu" class="hidden md:hidden mt-3 space-y-2 px-2 pb-3 pt-2 bg-[#1f2937] rounded-lg">
+            <a href="#" class="block px-3 py-2 rounded-md bg-gray-900 text-accent">الرئيسية</a>
+            <a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-800 transition">قائمة المانجا</a>
+            <a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-800 transition">أحدث الفصول</a>
+            <button onclick="toggleAdminPanel(); toggleMobileMenu();" class="block w-full text-right px-3 py-2 rounded-md hover:bg-gray-800 text-xs text-gray-500">لوحة التحكم السريّة</button>
+        </div>
+    </nav>
+
+    <!-- 2. لوحة التحكم المخفية (Admin Panel) -->
+    <div id="admin-panel" class="hidden bg-[#1f2937] border-b border-cyan-900 text-white p-6 transition-all duration-300 shadow-inner">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-accent"><i class="fa-solid fa-user-shield ml-2"></i>لوحة تحكم الناشر (مخفية)</h3>
+                <button onclick="toggleAdminPanel()" class="text-red-400 hover:text-red-300"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            
+            <form id="add-manga-form" class="grid grid-cols-1 md:grid-cols-3 gap-4" onsubmit="addNewManga(event)">
+                <input type="text" id="manga-title" placeholder="اسم المانجا" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-cyan-500">
+                <input type="text" id="manga-chapter" placeholder="رقم الفصل (مثال: الفصل 01)" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-cyan-500">
+                <input type="url" id="manga-cover" placeholder="رابط صورة الغلاف" required class="bg-gray-900 border border-gray-700 rounded p-2 text-white focus:outline-none focus:border-cyan-500">
+                <div class="md:col-span-3 text-left">
+                    <button type="submit" class="bg-accent text-gray-900 font-bold px-6 py-2 rounded hover:bg-cyan-400 transition shadow-lg">نشر الفصل الآن</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. محتوى الموقع الرئيسي (واجهة المانجا) -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-8">
+        
+        <!-- عنوان القسم المحدث مؤخراً -->
+        <div class="flex items-center justify-between mb-8 border-r-4 border-accent pr-3">
+            <h2 class="text-2xl font-extrabold tracking-tight text-white">آخر الفصول المرفوعة <span class="text-xs text-accent font-normal mr-2">تحديث تلقائي</span></h2>
+            <a href="#" class="text-sm text-accent hover:underline">عرض الكل <i class="fa-solid fa-angle-left mr-1"></i></a>
+        </div>
+
+        <!-- شبكة عرض المانجا (Manga Grid) -->
+        <div id="manga-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            
+            <!-- كرت مانجا افتراضي 1 -->
+            <div class="bg-[#111827] rounded-lg overflow-hidden border border-gray-800 shadow-md hover:border-cyan-500 transition duration-300 group">
+                <div class="relative overflow-hidden aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=400" alt="Manga Cover" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-2 right-2 bg-accent text-gray-900 text-xs font-bold px-2 py-1 rounded">HOT</span>
+                </div>
+                <div class="p-3">
+                    <h3 class="font-bold text-white truncate group-hover:text-accent transition">مغامرة البطل الأسطوري</h3>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-sm text-gray-400">الفصل 105</span>
+                        <span class="text-xs text-gray-500">منذ ساعتين</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- كرت مانجا افتراضي 2 -->
+            <div class="bg-[#111827] rounded-lg overflow-hidden border border-gray-800 shadow-md hover:border-cyan-500 transition duration-300 group">
+                <div class="relative overflow-hidden aspect-[3/4]">
+                    <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=400" alt="Manga Cover" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                </div>
+                <div class="p-3">
+                    <h3 class="font-bold text-white truncate group-hover:text-accent transition">صياد الرياح والظلال</h3>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-sm text-gray-400">الفصل 24</span>
+                        <span class="text-xs text-gray-500">اليوم</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- هنا ستظهر الفصول الجديدة التي تقوم بنشرها تلقائياً -->
+
+        </div>
+    </main>
+
+    <!-- 4. تذييل الموقع (Footer) -->
+    <footer class="bg-[#090d16] border-t border-gray-900 py-6 text-center text-sm text-gray-500">
+        <p>جميع الحقوق محفوظة © 2026 | موقع المانجا العصرية</p>
+    </footer>
+
+    <!-- 5. أكواد التشغيل والتحكم (JavaScript) -->
+    <script>
+        // دالة فتح وإغلاق قائمة الجوال
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // دالة إظهار وإخفاء لوحة التحكم المخفية
+        function toggleAdminPanel() {
+            const panel = document.getElementById('admin-panel');
+            panel.classList.toggle('hidden');
+        }
+
+        // دالة لإضافة مانجا جديدة وحفظها في ذاكرة المتصفح مؤقتاً لعرضها فوراً
+        function addNewManga(event) {
+            event.preventDefault();
+
+            const title = document.getElementById('manga-title').value;
+            const chapter = document.getElementById('manga-chapter').value;
+            const cover = document.getElementById('manga-cover').value;
+
+            // إنشاء عنصر كرت المانجا الجديد
+            const mangaGrid = document.getElementById('manga-container');
+            const newCard = document.createElement('div');
+            newCard.className = "bg-[#111827] rounded-lg overflow-hidden border border-cyan-500 shadow-md hover:border-cyan-400 transition duration-300 group animate-pulse";
+            
+            newCard.innerHTML = `
+                <div class="relative overflow-hidden aspect-[3/4]">
+                    <img src="${cover}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=400'">
+                    <span class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">جديد</span>
+                </div>
+                <div class="p-3">
+                    <h3 class="font-bold text-white truncate group-hover:text-accent transition">${title}</h3>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-sm text-gray-400">${chapter}</span>
+                        <span class="text-xs text-accent">الآن</span>
+                    </div>
+                </div>
+            `;
+
+            // إضافة الكرت الجديد في بداية القائمة
+            mangaGrid.insertBefore(newCard, mangaGrid.firstChild);
+
+            // إزالة تأثير النبض (Pulse) بعد ثانيتين لإعطاء مظهر طبيعي
+            setTimeout(() => {
+                newCard.classList.remove('animate-pulse');
+            }, 2000);
+
+            // إعادة تعيين الحقول وإغلاق اللوحة
+            document.getElementById('add-manga-form').reset();
+            toggleAdminPanel();
+        }
+    </script>
+</body>
+</html>
